@@ -1,44 +1,41 @@
 package pl.edu.agh.pm.task.view;
 
 import static android.view.View.GONE;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import pl.edu.agh.pm.task.Contract;
 import pl.edu.agh.pm.task.R;
-import pl.edu.agh.pm.task.model.Model;
-import pl.edu.agh.pm.task.presenter.Presenter;
+import pl.edu.agh.pm.task.databinding.ActivityMainBinding;
+import pl.edu.agh.pm.task.viewmodel.CuriosityViewModel;
 
-public class MainActivity extends AppCompatActivity implements Contract.View {
+public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
-
-    private Button button;
-
-    private ProgressBar progressBar;
-
-    Contract.Presenter presenter;
+    private ActivityMainBinding binding;
+    private CuriosityViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textViewWithCuriosity);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding.button.setOnClickListener(v -> model.onButtonClick());
+        setContentView(binding.getRoot());
 
-        button = findViewById(R.id.button);
-
-        progressBar = findViewById(R.id.progressBar);
-
-        presenter = new Presenter(this, new Model());
-
-        button.setOnClickListener(v -> presenter.onButtonClick());
+        model = new ViewModelProvider(this).get(CuriosityViewModel.class);
+        model.getIsLoading().observe(this, isLoading -> {
+            if (isLoading) {
+                showProgress();
+            } else {
+                hideProgress();
+            }
+        });
+        model.getCuriosityBinding().observe(this, curiosity -> {
+            if (curiosity != null) {
+                binding.textViewWithCuriosity.setText(curiosity);
+            }
+        });
     }
 
     @Override
@@ -49,23 +46,15 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
     }
 
-    @Override
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-        textView.setVisibility(View.INVISIBLE);
+    private void showProgress() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.textView.setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    public void hideProgress() {
-        progressBar.setVisibility(GONE);
-        textView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void setString(String string) {
-        textView.setText(string);
+    private void hideProgress() {
+        binding.progressBar.setVisibility(GONE);
+        binding.textView.setVisibility(View.VISIBLE);
     }
 }

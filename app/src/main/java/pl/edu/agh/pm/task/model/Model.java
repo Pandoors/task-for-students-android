@@ -1,15 +1,11 @@
 package pl.edu.agh.pm.task.model;
 
-import android.os.Handler;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import pl.edu.agh.pm.task.Contract;
-
-public class Model implements Contract.Model {
-
+public class Model {
+    private final Random random = new Random();
 
     private final List<String> arrayList = Arrays.asList(
             "Cosmic Latte: The average color of the universe is beige, and it has been named Cosmic Latte by scientists.",
@@ -24,15 +20,8 @@ public class Model implements Contract.Model {
             "A single cloud can weigh more than 1 million pounds: Clouds are heavy, but the spread of their particles means they don't fall."
     );
 
-    @Override
+    public String getRandomCuriosity() {
 
-    public void getNextCourse(final OnFinishedListener listener) {
-        new Handler().postDelayed(() -> listener.onFinished(getRandomString()), 1200);
-    }
-
-
-    private String getRandomString() {
-        Random random = new Random();
         int index = random.nextInt(arrayList.size());
         return arrayList.get(index);
     }
