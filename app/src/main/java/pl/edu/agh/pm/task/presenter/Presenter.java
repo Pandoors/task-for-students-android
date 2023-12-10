@@ -18,7 +18,7 @@ public class Presenter implements Contract.Presenter, Contract.Model.OnFinishedL
         if (mainView != null) {
             mainView.showProgress();
         }
-        model.getNextCourse(this);
+        model.getNextCuriosity(this);
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface Contract {
             void onFinished(String string);
         }
 
-        void getNextCourse(Contract.Model.OnFinishedListener onFinishedListener);
+        void getNextCuriosity(Contract.Model.OnFinishedListener onFinishedListener);
     }
 
     interface Presenter {

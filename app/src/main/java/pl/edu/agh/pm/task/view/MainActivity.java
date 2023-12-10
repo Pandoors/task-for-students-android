@@ -18,12 +18,8 @@ import pl.edu.agh.pm.task.presenter.Presenter;
 public class MainActivity extends AppCompatActivity implements Contract.View {
 
     private TextView textView;
-
-    private Button button;
-
     private ProgressBar progressBar;
-
-    Contract.Presenter presenter;
+    private Contract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
         textView = findViewById(R.id.textViewWithCuriosity);
 
-        button = findViewById(R.id.button);
+        Button button = findViewById(R.id.button);
 
         progressBar = findViewById(R.id.progressBar);
 

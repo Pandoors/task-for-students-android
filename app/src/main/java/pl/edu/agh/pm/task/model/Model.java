@@ -10,6 +10,7 @@ import pl.edu.agh.pm.task.Contract;
 
 public class Model implements Contract.Model {
 
+    private final Random random = new Random();
 
     private final List<String> arrayList = Arrays.asList(
             "Cosmic Latte: The average color of the universe is beige, and it has been named Cosmic Latte by scientists.",
@@ -25,14 +26,11 @@ public class Model implements Contract.Model {
     );
 
     @Override
-
-    public void getNextCourse(final OnFinishedListener listener) {
+    public void getNextCuriosity(final Contract.Model.OnFinishedListener listener) {
         new Handler().postDelayed(() -> listener.onFinished(getRandomString()), 1200);
     }
 
-
     private String getRandomString() {
-        Random random = new Random();
         int index = random.nextInt(arrayList.size());
         return arrayList.get(index);
     }
